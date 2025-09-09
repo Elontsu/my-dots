@@ -22,15 +22,15 @@
     stateVersion = "25.11";
   };
 
-  programs.ssh = {
-    enable = true;
-    matchBlocks = {
-      "github.com" = {
-        hostname = "gihub.com";
-        user = "git";
-        identityFile = "~/.ssh/id_ed25519";
-        identitiesOnly = true;
-      };
-    };
-  };
+  # programs.ssh = {
+  #   enable = true;
+  #   matchBlocks = {
+  #     "github.com" = {
+  #       hostname = "gihub.com";
+  #       user = "git";
+  #       identityFile = "~/.ssh/id_ed25519";
+  #       identitiesOnly = true;
+  #     };
+  #   };
+  # };
 }
