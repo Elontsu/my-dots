@@ -123,12 +123,32 @@
 
       exec-once = "swww-daemon";
 
+      exec = "hyprctl dispatch submap global";
+      submap = "global";
+
       "$mainMod" = "SUPER";
       "$browser" = "firefox";
 
+      # bindi = [
+      #   "Super, Super_R, global, caelestia:launcher"
+      # ];
+
+      bindin = [
+        "Super, catchall, global, caelestia:launcherInterrupt"
+        "Super, mouse:272, global, caelestia:launcherInterrupt"
+        "Super, mouse:273, global, caelestia:launcherInterrupt"
+        "Super, mouse:274, global, caelestia:launcherInterrupt"
+        "Super, mouse:275, global, caelestia:launcherInterrupt"
+        "Super, mouse:276, global, caelestia:launcherInterrupt"
+        "Super, mouse:277, global, caelestia:launcherInterrupt"
+        "Super, mouse_up, global, caelestia:launcherInterrupt"
+        "Super, mouse_down, global, caelestia:launcherInterrupt"
+      ];
+
       bind = [
         " , PRINT, exec, hyprshot -z -m region"
-        "$mainMod, R, exec, wofi --show drun"
+        # "$mainMod, R, exec, wofi --show drun"
+        "$mainMod, R, global, caelestia:launcher"
         "$mainMod, Q, exec, kitty"
         "$mainMod, C, killactive"
         "$mainMod, V, togglefloating"

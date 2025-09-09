@@ -4,10 +4,14 @@
   ...
 }:
 {
-  # home.packages.caelestia = {
-  #   enable = true;
-  #   settings = {
-  #     paths.wallpaperDir = "~/Pictures/Wallpapers";
-  #   };
-  # };
+  # imports = [
+  #   inputs.spicetify-nix.homeManagerModules.default
+  # ];
+
+  inputs.programs.caelestia = {
+    enable = true;
+    settings = {
+      paths.wallpaperDir = "~/Pictures/Wallpapers";
+    };
+  };
 }
