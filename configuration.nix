@@ -229,6 +229,7 @@
     fastfetch
     vim
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+    inputs.caelestia-shell.packages.${pkgs.system}.default
     ox
     btop
     egl-wayland

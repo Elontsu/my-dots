@@ -15,6 +15,7 @@
     ./zsh
     ./waybar
     ./spicetify
+    ./shell
   ];
   home = {
     username = "elontsu";
