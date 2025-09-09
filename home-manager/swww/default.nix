@@ -1,0 +1,5 @@
+{ config, ... }:
+{
+  services.swww = {
+  };
+}
