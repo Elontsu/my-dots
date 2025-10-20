@@ -19,6 +19,8 @@
       "ssh-config"
       "angular"
       "nestjs-snippets"
+      "vue"
+      "vue-snippets"
     ];
     userSettings = {
       ui_font_size = 16;
@@ -37,7 +39,7 @@
       theme = {
         mode = "dark";
         light = "One Light";
-        dark = "Catppuccin Frappé";
+        dark = "Catppuccin Mocha";
       };
       lsp = {
         "rust-analyzer" = {
@@ -49,32 +51,41 @@
           enable = true;
         };
       };
+      # agent_servers = {
+      #   your_agent = {
+      #     # command = "path_to_executable";
+      #     args = [ ];
+      #     env = {
+      #       GEMINI_API_KEY = "";
+      #     };
+      #   };
+      # };
       assistant = {
         enabled = true;
         version = "2";
         button = true;
         default_model = {
-          provider = "lmstudio";
-          model = "microsoft/phi-4-mini-reasoning";
+          provider = "google";
+          model = "gemini-2.5-pro";
         };
         editor_model = {
-          provider = "lmstudio";
-          model = "microsoft/phi-4-mini-reasoning";
+          provider = "google";
+          model = "gemini-2.5-pro";
         };
-        language_models = {
-          lmstudio = {
-            api_url = "https://localhost:1234/v1";
-            available_models = [
-              {
-                name = "microsoft/phi-4-mini-reasoning";
-                display_name = "microsoft/phi-4-mini-reasoning";
-                max_tokens = 4096;
-                support_tools = true;
-                support_thinking = true;
-              }
-            ];
-          };
-        };
+        # language_models = {
+        #   lmstudio = {
+        #     api_url = "https://localhost:1234/v1";
+        #     available_models = [
+        #       {
+        #         name = "microsoft/phi-4-mini-reasoning";
+        #         display_name = "microsoft/phi-4-mini-reasoning";
+        #         max_tokens = 4096;
+        #         support_tools = true;
+        #         support_thinking = true;
+        #       }
+        #     ];
+        #   };
+        # };
       };
     };
   };

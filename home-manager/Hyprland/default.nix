@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -17,15 +17,6 @@
         gaps_out = 20;
 
         border_size = 2;
-
-        # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
-        # col.
-        # col.
-
-        # col = {
-        #   active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        #   inactive_border = "rgba(595959aa)";
-        # };
 
         # Set to true enable resizing windows by clicking and dragging on borders and gaps
         resize_on_border = false;
@@ -121,34 +112,23 @@
         "special:exposed,gapsout:60,gapsin:30,bordersize:5,border:true,shadow:false"
       ];
 
-      exec-once = "swww-daemon";
+      exec-once = [
+        "swww-daemon"
+        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+        # "caelestia-shell"
+      ];
 
       exec = "hyprctl dispatch submap global";
       submap = "global";
 
       "$mainMod" = "SUPER";
-      "$browser" = "firefox";
-
-      # bindi = [
-      #   "Super, Super_R, global, caelestia:launcher"
-      # ];
-
-      bindin = [
-        "Super, catchall, global, caelestia:launcherInterrupt"
-        "Super, mouse:272, global, caelestia:launcherInterrupt"
-        "Super, mouse:273, global, caelestia:launcherInterrupt"
-        "Super, mouse:274, global, caelestia:launcherInterrupt"
-        "Super, mouse:275, global, caelestia:launcherInterrupt"
-        "Super, mouse:276, global, caelestia:launcherInterrupt"
-        "Super, mouse:277, global, caelestia:launcherInterrupt"
-        "Super, mouse_up, global, caelestia:launcherInterrupt"
-        "Super, mouse_down, global, caelestia:launcherInterrupt"
-      ];
+      "$browser" = "zen";
 
       bind = [
         " , PRINT, exec, hyprshot -z -m region"
-        # "$mainMod, R, exec, wofi --show drun"
-        "$mainMod, R, global, caelestia:launcher"
+
+        "$mainMod, R, exec, wofi --show drun"
+
         "$mainMod, Q, exec, kitty"
         "$mainMod, C, killactive"
         "$mainMod, V, togglefloating"
@@ -208,7 +188,7 @@
       ];
     };
     extraConfig = ''
-      			monitor = DP-1, 1920x1080@60, 0x0, 1
+      monitor = DP-1, 1920x1080@60, 0x0, 1
       monitor = DP-2, 1920x1080@60, 1920x0, 1
 
       # exec-once = waybar

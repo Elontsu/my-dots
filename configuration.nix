@@ -8,27 +8,12 @@
   inputs,
   ...
 }:
-
-# let
-#   home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz;
-# in
 {
   imports = [
-    # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
-    # inputs.spicetify-nix.nixosModules.default
-    # (import "${home-manager}/nixos")
-    #      /home/elontsu/.config/home-manager/home.nix
 
   ];
-
-  #  home-manager.users.elontsu = { pkgs, ... }: {
-  #      home.stateVersion = "25.05";
-  #      imports = [
-  # 	/home/elontsu/.config/home-manager/home.nix
-  # ];
-  # };
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -48,6 +33,8 @@
       34197
       12975
       32976
+      25565
+      7777
       6112
       6113
       6114
@@ -59,6 +46,8 @@
     ];
     allowedUDPPorts = [
       34197
+      25565
+      7777
       6112
       6113
       6114
@@ -79,6 +68,10 @@
     enable = true;
     powerOnBoot = true;
   };
+
+  security.pam.services.login.enableGnomeKeyring = true;
+  services.gnome.gnome-keyring.enable = true;
+  # services.gnome-keyring.enable = true;
 
   services.blueman.enable = true;
 
@@ -198,6 +191,10 @@
     }
   ];
 
+  # xdg.portal = {
+  #   enable = true;
+  # };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   programs.hyprland = {
@@ -216,8 +213,11 @@
     localNetworkGameTransfers.openFirewall = true;
   };
 
+  programs.firefox = {
+    enable = true;
+  };
+
   environment.systemPackages = with pkgs; [
-    firefox
     lsd
     git
     unrar-free
@@ -225,20 +225,21 @@
     wofi
     vesktop
     pipewire
-    pavucontrol
     pwvucontrol
     fastfetch
-    vim
+    zed-editor
+
+    telegram-desktop
+
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-    inputs.caelestia-shell.packages.${pkgs.system}.default
+    inputs.zen-browser.packages."${system}".default
+
     ox
     btop
     egl-wayland
     nvidia-system-monitor-qt
-    telegram-desktop
     unzip
     swww
-    zed-editor
     wlogout
     osu-lazer-bin
     r2modman
@@ -268,9 +269,12 @@
     nixd
     nil
 
-    # ani-cli
-
     fd
+    bat
+
+    libsecret
+    gcr
+    keepassxc
   ];
 
   fonts.packages = with pkgs; [
@@ -312,5 +316,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11"; # Did you read the comment?
-
 }

@@ -24,7 +24,7 @@
         copyToClipboard
         trashbin
       ];
-      theme = spicePkgs.themes.onepunch;
-      colorScheme = "dark";
+      theme = spicePkgs.themes.starryNight;
+      colorScheme = "Base";
     };
 }
