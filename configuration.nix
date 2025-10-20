@@ -11,8 +11,15 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./system/pkgs.nix
+    ./system/env.nix
+    ./system/steam.nix
+    ./system/networking.nix
+    ./system/nvidia.nix
+    ./system/hyprland.nix
+    ./system/locales.nix
+    ./system/pipewire.nix
     inputs.home-manager.nixosModules.default
-
   ];
 
   nix.settings.experimental-features = [
@@ -25,39 +32,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
-  networking.firewall = {
-    enable = true;
-    allowPing = true;
-    allowedTCPPorts = [
-      3000
-      34197
-      12975
-      32976
-      25565
-      7777
-      6112
-      6113
-      6114
-      6115
-      6116
-      6117
-      6118
-      6119
-    ];
-    allowedUDPPorts = [
-      34197
-      25565
-      7777
-      6112
-      6113
-      6114
-      6115
-      6116
-      6117
-      6118
-      6119
-    ];
-  };
+
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -68,12 +43,10 @@
     enable = true;
     powerOnBoot = true;
   };
+  services.blueman.enable = true;
 
   security.pam.services.login.enableGnomeKeyring = true;
   services.gnome.gnome-keyring.enable = true;
-  # services.gnome-keyring.enable = true;
-
-  services.blueman.enable = true;
 
   nix.gc = {
     automatic = true;
@@ -87,17 +60,6 @@
 
   programs.waybar.enable = true;
 
-  services.pulseaudio.enable = false;
-
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    jack.enable = true;
-    pulse.enable = true;
-  };
-
   #  services.pulseaudio.extraConfig = ''unload-module module-echo-cancel
   #  load-module module-echo-cancel aec_method=webrtc aec_args="analog_gain_control=0 digital_gain_control=0"'';
 
@@ -106,21 +68,6 @@
 
   # Set your time zone.
   time.timeZone = "Europe/Kyiv";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "uk_UA.UTF-8";
-    LC_IDENTIFICATION = "uk_UA.UTF-8";
-    LC_MEASUREMENT = "uk_UA.UTF-8";
-    LC_MONETARY = "uk_UA.UTF-8";
-    LC_NAME = "uk_UA.UTF-8";
-    LC_NUMERIC = "uk_UA.UTF-8";
-    LC_PAPER = "uk_UA.UTF-8";
-    LC_TELEPHONE = "uk_UA.UTF-8";
-    LC_TIME = "uk_UA.UTF-8";
-  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -144,41 +91,6 @@
     ];
   };
 
-  hardware = {
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-      extraPackages = (
-        with pkgs;
-        [
-          libva
-          vaapiVdpau
-          libvdpau-va-gl
-          nvidia-vaapi-driver
-        ]
-      );
-      extraPackages32 = (
-        with pkgs.pkgsi686Linux;
-        [
-          vaapiVdpau
-          libvdpau-va-gl
-          nvidia-vaapi-driver
-        ]
-      );
-    };
-    nvidia = {
-      open = true;
-      nvidiaSettings = true;
-      modesetting.enable = true;
-      powerManagement.enable = true;
-      forceFullCompositionPipeline = true;
-      package = config.boot.kernelPackages.nvidiaPackages.latest;
-    };
-  };
-  services.xserver.videoDrivers = [
-    "nvidia"
-  ];
-
   programs.dconf.profiles.user.databases = [
     {
       settings."org/gnome/desktop/interface" = {
@@ -191,104 +103,13 @@
     }
   ];
 
-  # xdg.portal = {
-  #   enable = true;
-  # };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  programs.hyprland = {
-    enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage =
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-    withUWSM = false;
-    xwayland.enable = true;
-  };
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    localNetworkGameTransfers.openFirewall = true;
-  };
-
   programs.firefox = {
     enable = true;
   };
 
-  environment.systemPackages = with pkgs; [
-    lsd
-    git
-    unrar-free
-    kitty
-    wofi
-    vesktop
-    pipewire
-    pwvucontrol
-    fastfetch
-    zed-editor
-
-    telegram-desktop
-
-    inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-    inputs.zen-browser.packages."${system}".default
-
-    ox
-    btop
-    egl-wayland
-    nvidia-system-monitor-qt
-    unzip
-    swww
-    wlogout
-    osu-lazer-bin
-    r2modman
-    qbittorrent
-    hyprshot
-
-    neovim
-
-    nerd-fonts.jetbrains-mono
-    prismlauncher
-    rnnoise-plugin
-    lmstudio
-    libreoffice
-
-    go
-
-    rustup
-    rustfmt
-
-    libgcc
-    gcc
-    clang-tools
-    clang_20
-
-    nodejs_22
-
-    nixd
-    nil
-
-    fd
-    bat
-
-    libsecret
-    gcr
-    keepassxc
-  ];
-
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
-
-  environment.variables = {
-    LIBVA_DRIVER_NAME = "nvidia";
-    GBM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    NVD_BACKEND = "direct";
-    __GL_GSYNC_ALLOWED = "1";
-    __GL_VRR_ALLOWED = "1";
-  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
