@@ -11,7 +11,7 @@
     ./wofi
     ./swww
     ./zeditor
-    ./git
+    # ./git
     ./zsh
     ./waybar
     ./spicetify
