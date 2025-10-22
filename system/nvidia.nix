@@ -16,6 +16,8 @@
           vaapiVdpau
           libvdpau-va-gl
           nvidia-vaapi-driver
+          vulkan-loader
+          vulkan-tools
         ]
       );
       extraPackages32 = (
@@ -24,6 +26,7 @@
           vaapiVdpau
           libvdpau-va-gl
           nvidia-vaapi-driver
+          vulkan-loader
         ]
       );
     };
